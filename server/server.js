@@ -13,10 +13,20 @@ var io = socketIO(server);
 app.use(express.static(publicPath));
 
 io.on('connection', (socket) => {
-  console.log('New user connected !!!!!!');
+  console.log('New user connected');
+
+  socket.emit('newMessage', {
+    'from': 'Mike',
+    'text': 'Sup dude',
+    'createdAt': Date.now()
+  });
+
+  socket.on('createMessage', (newEmail) => {
+    console.log('create new email: ', newEmail);
+  });
 
   socket.on('disconnect', () => {
-    console.log('DISCONNECT in server.js $$$$$$$$$$$$');
+    console.log('DISCONNECT in server.js');
   })
 });
 
