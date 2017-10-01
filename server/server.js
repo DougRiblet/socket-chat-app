@@ -22,13 +22,15 @@ io.on('connection', (socket) => {
 
   socket.broadcast.emit('newMessage', generateMessage('Admin', 'New user joined'));
 
-  socket.on('createMessage', (message) => {
+  socket.on('createMessage', (message, callback) => {
     console.log('create new email: ', message);
 
     // ## io.emit here will send to all users, including message poster
 
     io.emit('newMessage', generateMessage(message.from, message.text));
-    
+    // callback here = the acknowledgment function passed from index.js
+    callback('This comes from server');
+
     // socket.broadcast.emit('newMessage', {
     //   'from': message.from,
     //   'text': message.text,
